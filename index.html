@@ -1,826 +1,1078 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MailBox — Correo ficticio</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      background: #f5f7fb;
-      color: #202124;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* =========================
-       LOGIN
-    ========================= */
-
-    #loginScreen {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(135deg, #536dfe, #7c4dff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-    }
-
-    .login-box {
-      width: 390px;
-      background: white;
-      padding: 40px;
-      border-radius: 22px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.25);
-      text-align: center;
-    }
-
-    .logo {
-      font-size: 34px;
-      font-weight: 800;
-      color: #536dfe;
-      margin-bottom: 10px;
-    }
-
-    .fake-label {
-      font-size: 11px;
-      color: #888;
-      margin-bottom: 25px;
-      letter-spacing: 1px;
-    }
-
-    .login-box h2 {
-      margin-bottom: 25px;
-    }
-
-    .login-box input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      margin-bottom: 14px;
-      font-size: 15px;
-      outline: none;
-    }
-
-    .login-box input:focus {
-      border-color: #536dfe;
-    }
-
-    .login-btn {
-      width: 100%;
-      border: none;
-      background: #536dfe;
-      color: white;
-      padding: 14px;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .login-btn:hover {
-      background: #4055d6;
-    }
-
-    .login-note {
-      margin-top: 20px;
-      font-size: 12px;
-      color: #777;
-    }
-
-    /* =========================
-       APP
-    ========================= */
-
-    #app {
-      display: none;
-      height: 100vh;
-    }
-
-    header {
-      height: 70px;
-      background: white;
-      display: flex;
-      align-items: center;
-      padding: 0 22px;
-      border-bottom: 1px solid #e5e7eb;
-      gap: 25px;
-    }
-
-    .brand {
-      font-size: 25px;
-      font-weight: 800;
-      color: #536dfe;
-      min-width: 150px;
-    }
-
-    .search {
-      flex: 1;
-      max-width: 650px;
-      position: relative;
-    }
-
-    .search input {
-      width: 100%;
-      background: #f1f3f4;
-      border: none;
-      border-radius: 25px;
-      padding: 13px 20px 13px 45px;
-      font-size: 15px;
-      outline: none;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 17px;
-      top: 12px;
-    }
-
-    .header-right {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .theme-btn {
-      border: none;
-      background: transparent;
-      font-size: 21px;
-      cursor: pointer;
-    }
-
-    .avatar {
-      width: 40px;
-      height: 40px;
-      background: #536dfe;
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-    }
-
-    /* =========================
-       LAYOUT
-    ========================= */
-
-    .layout {
-      display: flex;
-      height: calc(100vh - 70px);
-    }
-
-    aside {
-      width: 240px;
-      background: white;
-      padding: 20px 14px;
-      border-right: 1px solid #e5e7eb;
-    }
-
-    .compose {
-      width: 100%;
-      background: #536dfe;
-      color: white;
-      border: none;
-      border-radius: 18px;
-      padding: 15px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-bottom: 25px;
-    }
-
-    .compose:hover {
-      background: #4055d6;
-    }
-
-    .menu-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 12px 15px;
-      border-radius: 12px;
-      cursor: pointer;
-      margin-bottom: 5px;
-    }
-
-    .menu-item:hover {
-      background: #f1f3f4;
-    }
-
-    .menu-item.active {
-      background: #e8eaff;
-      color: #536dfe;
-      font-weight: bold;
-    }
-
-    .count {
-      margin-left: auto;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    /* =========================
-       CONTENT
-    ========================= */
-
-    main {
-      flex: 1;
-      overflow-y: auto;
-      padding: 25px;
-    }
-
-    .toolbar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .toolbar button {
-      border: none;
-      background: white;
-      padding: 10px 13px;
-      border-radius: 9px;
-      cursor: pointer;
-    }
-
-    .toolbar button:hover {
-      background: #e9edf5;
-    }
-
-    .mail-list {
-      background: white;
-      border-radius: 15px;
-      overflow: hidden;
-      border: 1px solid #e5e7eb;
-    }
-
-    .mail {
-      display: flex;
-      align-items: center;
-      padding: 17px 20px;
-      border-bottom: 1px solid #eee;
-      cursor: pointer;
-      gap: 15px;
-    }
-
-    .mail:last-child {
-      border-bottom: none;
-    }
-
-    .mail:hover {
-      background: #f8f9fc;
-    }
-
-    .mail.unread {
-      background: #f1f3ff;
-      font-weight: bold;
-    }
-
-    .star {
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    .star.active {
-      color: #ffb300;
-    }
-
-    .sender {
-      width: 190px;
-    }
-
-    .subject {
-      flex: 1;
-    }
-
-    .preview {
-      color: #777;
-      font-weight: normal;
-    }
-
-    .date {
-      color: #777;
-      font-size: 13px;
-    }
-
-    /* =========================
-       MESSAGE
-    ========================= */
-
-    #messageView {
-      display: none;
-      background: white;
-      border-radius: 15px;
-      padding: 30px;
-      border: 1px solid #e5e7eb;
-    }
-
-    .back {
-      border: none;
-      background: #f1f3f4;
-      padding: 10px 15px;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-bottom: 25px;
-    }
-
-    .message-header {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    .message-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: #536dfe;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: bold;
-    }
-
-    .message-body {
-      line-height: 1.7;
-      font-size: 16px;
-      margin-top: 25px;
-      white-space: pre-line;
-    }
-
-    /* =========================
-       COMPOSE
-    ========================= */
-
-    #composeBox {
-      display: none;
-      position: fixed;
-      right: 30px;
-      bottom: 0;
-      width: 450px;
-      background: white;
-      border-radius: 15px 15px 0 0;
-      box-shadow: 0 0 30px rgba(0,0,0,.25);
-      overflow: hidden;
-      z-index: 100;
-    }
-
-    .compose-header {
-      background: #536dfe;
-      color: white;
-      padding: 15px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .close-compose {
-      border: none;
-      background: transparent;
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    .compose-body {
-      padding: 15px;
-    }
-
-    .compose-body input,
-    .compose-body textarea {
-      width: 100%;
-      border: none;
-      border-bottom: 1px solid #ddd;
-      padding: 12px 5px;
-      outline: none;
-      font-size: 14px;
-    }
-
-    .compose-body textarea {
-      height: 200px;
-      resize: none;
-      border-bottom: none;
-    }
-
-    .send-btn {
-      background: #536dfe;
-      color: white;
-      border: none;
-      border-radius: 20px;
-      padding: 11px 25px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    /* =========================
-       DARK MODE
-    ========================= */
-
-    body.dark {
-      background: #121318;
-      color: #eee;
-    }
-
-    body.dark header,
-    body.dark aside,
-    body.dark .mail-list,
-    body.dark #messageView,
-    body.dark #composeBox {
-      background: #1c1e26;
-      color: #eee;
-      border-color: #30333d;
-    }
-
-    body.dark .mail {
-      border-color: #30333d;
-    }
-
-    body.dark .mail:hover {
-      background: #252832;
-    }
-
-    body.dark .search input {
-      background: #292c35;
-      color: white;
-    }
-
-    body.dark .toolbar button,
-    body.dark .back {
-      background: #292c35;
-      color: white;
-    }
-
-    body.dark .menu-item:hover {
-      background: #292c35;
-    }
-
-    body.dark .preview,
-    body.dark .date {
-      color: #aaa;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media(max-width: 700px) {
-
-      header {
-        padding: 0 12px;
-      }
-
-      .brand {
-        min-width: auto;
-        font-size: 20px;
-      }
-
-      .search {
-        display: none;
-      }
-
-      aside {
-        width: 65px;
-        padding: 15px 8px;
-      }
-
-      .compose {
-        font-size: 0;
-        padding: 14px 0;
-      }
-
-      .compose::after {
-        content: "+";
-        font-size: 22px;
-      }
-
-      .menu-item {
-        justify-content: center;
-        padding: 13px 5px;
-      }
-
-      .menu-item span:not(.count) {
-        display: none;
-      }
-
-      .count {
-        display: none;
-      }
-
-      main {
-        padding: 12px;
-      }
-
-      .mail {
-        padding: 15px 10px;
-        gap: 8px;
-      }
-
-      .sender {
-        width: 85px;
-        overflow: hidden;
-        white-space: nowrap;
-      }
-
-      .preview {
-        display: none;
-      }
-
-      .date {
-        font-size: 11px;
-      }
-
-      #composeBox {
-        width: 95%;
-        right: 2.5%;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Mail — Correo</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+:root{
+    --primary:#1a73e8;
+    --primary-light:#e8f0fe;
+    --bg:#f6f8fc;
+    --white:#fff;
+    --text:#202124;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+    --hover:#f1f3f4;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    height:100vh;
+    overflow:hidden;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+#login{
+    position:fixed;
+    inset:0;
+    background:#f6f8fc;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:9999;
+}
+
+.login-card{
+    width:100%;
+    max-width:400px;
+    background:white;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:35px 28px;
+    text-align:center;
+}
+
+.logo{
+    color:var(--primary);
+    font-size:30px;
+    font-weight:600;
+    margin-bottom:8px;
+}
+
+.demo{
+    font-size:11px;
+    color:#777;
+    letter-spacing:.7px;
+    margin-bottom:28px;
+}
+
+.login-card h2{
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.login-card p{
+    color:var(--muted);
+    font-size:14px;
+    margin-bottom:25px;
+}
+
+.login-card input{
+    width:100%;
+    height:48px;
+    padding:0 14px;
+    border:1px solid #c9cdd3;
+    border-radius:7px;
+    margin-bottom:12px;
+    font-size:15px;
+    outline:none;
+}
+
+.login-card input:focus{
+    border:2px solid var(--primary);
+}
+
+.login-button{
+    width:100%;
+    height:46px;
+    border:none;
+    border-radius:7px;
+    background:var(--primary);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:5px;
+}
+
+.demo-note{
+    margin-top:18px;
+    font-size:11px;
+    color:#888;
+    line-height:1.5;
+}
+
+/* =========================
+   APP
+========================= */
+
+#app{
+    display:none;
+    height:100vh;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    height:70px;
+    background:white;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    padding:0 20px;
+    gap:20px;
+}
+
+.logo-header{
+    font-size:23px;
+    color:var(--primary);
+    font-weight:600;
+    width:170px;
+}
+
+.menu-button{
+    display:none;
+    border:none;
+    background:none;
+    font-size:24px;
+}
+
+.search{
+    flex:1;
+    max-width:720px;
+    position:relative;
+}
+
+.search input{
+    width:100%;
+    height:46px;
+    border:none;
+    background:#eef1f5;
+    border-radius:24px;
+    padding:0 20px 0 48px;
+    outline:none;
+    font-size:15px;
+}
+
+.search span{
+    position:absolute;
+    left:18px;
+    top:13px;
+    color:#666;
+}
+
+.header-actions{
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.icon-button{
+    border:none;
+    background:none;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#5f6368;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:14px;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.layout{
+    display:flex;
+    height:calc(100vh - 70px);
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    width:245px;
+    background:white;
+    padding:18px 12px;
+    border-right:1px solid var(--border);
+}
+
+.compose{
+    width:145px;
+    height:52px;
+    border:none;
+    border-radius:17px;
+    background:white;
+    box-shadow:0 2px 8px rgba(0,0,0,.12);
+    font-size:15px;
+    cursor:pointer;
+    margin-bottom:20px;
+}
+
+.compose:hover{
+    background:#f5f7fa;
+}
+
+.folder{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:10px 20px;
+    border-radius:0 18px 18px 0;
+    cursor:pointer;
+    font-size:14px;
+    margin-bottom:3px;
+}
+
+.folder:hover{
+    background:var(--hover);
+}
+
+.folder.active{
+    background:var(--primary-light);
+    color:#174ea6;
+    font-weight:bold;
+}
+
+.folder-count{
+    margin-left:auto;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+    flex:1;
+    overflow:hidden;
+    padding:20px;
+}
+
+.toolbar{
+    height:50px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.toolbar button{
+    border:none;
+    background:transparent;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:17px;
+}
+
+.toolbar button:hover{
+    background:#e8eaed;
+}
+
+.mail-container{
+    height:calc(100% - 50px);
+    background:white;
+    border-radius:12px;
+    border:1px solid var(--border);
+    overflow-y:auto;
+}
+
+/* =========================
+   EMAIL
+========================= */
+
+.email{
+    min-height:68px;
+    display:flex;
+    align-items:center;
+    padding:0 18px;
+    border-bottom:1px solid #eee;
+    cursor:pointer;
+    gap:14px;
+}
+
+.email:hover{
+    background:#f8fafd;
+}
+
+.email.unread{
+    background:#f2f6fc;
+    font-weight:bold;
+}
+
+.checkbox{
+    width:17px;
+    height:17px;
+}
+
+.star{
+    width:24px;
+    color:#777;
+    font-size:19px;
+}
+
+.star.selected{
+    color:#fbbc04;
+}
+
+.email-info{
+    width:190px;
+    flex-shrink:0;
+}
+
+.email-subject{
+    flex:1;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.email-preview{
+    color:#777;
+    font-weight:normal;
+}
+
+.email-date{
+    width:65px;
+    text-align:right;
+    font-size:12px;
+    color:#777;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+#message{
+    display:none;
+    height:100%;
+    background:white;
+    border-radius:12px;
+    border:1px solid var(--border);
+    padding:20px;
+    overflow-y:auto;
+}
+
+.back{
+    border:none;
+    background:var(--hover);
+    padding:9px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-bottom:25px;
+}
+
+.message-title{
+    font-size:25px;
+    font-weight:400;
+    margin-bottom:22px;
+}
+
+.message-user{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.message-avatar{
+    width:42px;
+    height:42px;
+    background:#5f6368;
+    border-radius:50%;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.message-content{
+    margin:30px 0 0 55px;
+    line-height:1.7;
+    white-space:pre-line;
+    font-size:15px;
+}
+
+/* =========================
+   COMPOSE
+========================= */
+
+.compose-window{
+    position:fixed;
+    right:25px;
+    bottom:0;
+    width:450px;
+    background:white;
+    border-radius:10px 10px 0 0;
+    box-shadow:0 5px 30px rgba(0,0,0,.25);
+    display:none;
+    z-index:1000;
+}
+
+.compose-title{
+    height:45px;
+    background:#f2f3f4;
+    padding:0 15px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-size:14px;
+}
+
+.compose-title button{
+    border:none;
+    background:none;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.compose-content{
+    padding:12px;
+}
+
+.compose-content input,
+.compose-content textarea{
+    width:100%;
+    border:none;
+    border-bottom:1px solid #eee;
+    outline:none;
+    padding:11px 5px;
+    font-size:14px;
+}
+
+.compose-content textarea{
+    height:220px;
+    resize:none;
+    border:none;
+}
+
+.send{
+    background:var(--primary);
+    border:none;
+    color:white;
+    padding:11px 23px;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+/* =========================
+   MOBILE NAV
+========================= */
+
+.mobile-nav{
+    display:none;
+}
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark{
+    --bg:#111318;
+    --white:#1d1f24;
+    --text:#e8eaed;
+    --muted:#aeb3bb;
+    --border:#30343b;
+}
+
+body.dark header,
+body.dark .sidebar,
+body.dark .mail-container,
+body.dark #message,
+body.dark .compose-window{
+    background:#1d1f24;
+    color:#e8eaed;
+}
+
+body.dark .search input{
+    background:#30343b;
+    color:white;
+}
+
+body.dark .email{
+    border-color:#30343b;
+}
+
+body.dark .email:hover{
+    background:#25282e;
+}
+
+body.dark .email.unread{
+    background:#20252d;
+}
+
+body.dark .compose-title{
+    background:#292c32;
+}
+
+body.dark .compose-content input,
+body.dark .compose-content textarea{
+    background:#1d1f24;
+    color:white;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+    body{
+        background:white;
+    }
+
+    header{
+        height:64px;
+        padding:0 13px;
+        gap:12px;
+    }
+
+    .logo-header{
+        width:auto;
+        font-size:21px;
+    }
+
+    .menu-button{
+        display:block;
+    }
+
+    .search{
+        display:block;
+    }
+
+    .search input{
+        height:40px;
+        font-size:13px;
+        padding-left:38px;
+    }
+
+    .search span{
+        left:13px;
+        top:10px;
+    }
+
+    .header-actions{
+        gap:8px;
+    }
+
+    .header-actions .theme-button{
+        display:none;
+    }
+
+    .avatar{
+        width:34px;
+        height:34px;
+    }
+
+    .layout{
+        height:calc(100vh - 64px - 65px);
+    }
+
+    .sidebar{
+        display:none;
+    }
+
+    main{
+        padding:0;
+        width:100%;
+    }
+
+    .toolbar{
+        height:48px;
+        padding:0 10px;
+        border-bottom:1px solid var(--border);
+    }
+
+    .mail-container{
+        height:calc(100% - 48px);
+        border:none;
+        border-radius:0;
+    }
+
+    .email{
+        min-height:72px;
+        padding:0 12px;
+        gap:9px;
+    }
+
+    .checkbox{
+        display:none;
+    }
+
+    .star{
+        width:23px;
+    }
+
+    .email-info{
+        width:105px;
+        overflow:hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
+        font-size:14px;
+    }
+
+    .email-subject{
+        font-size:14px;
+    }
+
+    .email-preview{
+        display:block;
+        font-size:12px;
+        margin-top:3px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+
+    .email-date{
+        width:38px;
+        font-size:10px;
+    }
+
+    #message{
+        border:none;
+        border-radius:0;
+        padding:17px;
+    }
+
+    .message-title{
+        font-size:21px;
+        line-height:1.3;
+    }
+
+    .message-content{
+        margin:25px 0 0 0;
+    }
+
+    .compose-window{
+        width:100%;
+        height:100%;
+        right:0;
+        bottom:0;
+        border-radius:0;
+    }
+
+    .compose-content textarea{
+        height:calc(100vh - 240px);
+    }
+
+    .mobile-nav{
+        position:fixed;
+        display:flex;
+        bottom:0;
+        left:0;
+        right:0;
+        height:65px;
+        background:white;
+        border-top:1px solid var(--border);
+        z-index:500;
+        justify-content:space-around;
+        align-items:center;
+    }
+
+    .mobile-nav button{
+        border:none;
+        background:none;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:4px;
+        font-size:11px;
+        color:#5f6368;
+    }
+
+    .mobile-nav .active{
+        color:var(--primary);
+        font-weight:bold;
+    }
+
+    body.dark .mobile-nav{
+        background:#1d1f24;
+    }
+}
+
+/* =========================
+   SMALL PHONES
+========================= */
+
+@media(max-width:380px){
+
+    .email-info{
+        width:85px;
+    }
+
+    .email-preview{
+        display:none;
+    }
+
+    .logo-header{
+        font-size:18px;
+    }
+
+    .search input{
+        font-size:11px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- LOGIN FICTICIO -->
-  <div id="loginScreen">
+<!-- =========================
+     LOGIN
+========================= -->
 
-    <div class="login-box">
+<section id="login">
 
-      <div class="logo">MailBox</div>
+    <div class="login-card">
 
-      <div class="fake-label">
-        DEMO • CORREO FICTICIO
-      </div>
+        <div class="logo">
+            Mail
+        </div>
 
-      <h2>Iniciar sesión</h2>
+        <div class="demo">
+            SERVICIO DE CORREO • DEMOSTRACIÓN
+        </div>
 
-      <input
-        type="text"
-        id="username"
-        placeholder="Correo ficticio"
-        autocomplete="off"
-      >
+        <h2>Iniciar sesión</h2>
 
-      <input
-        type="password"
-        id="password"
-        placeholder="Contraseña ficticia"
-        autocomplete="off"
-      >
+        <p>
+            Accede a tu bandeja de entrada
+        </p>
 
-      <button class="login-btn" onclick="login()">
-        Entrar
-      </button>
+        <input
+            type="text"
+            id="loginEmail"
+            placeholder="Correo electrónico"
+            autocomplete="off"
+        >
 
-      <div class="login-note">
-        Esta interfaz es una demostración y no envía ni almacena credenciales.
-      </div>
+        <input
+            type="password"
+            id="loginPassword"
+            placeholder="Contraseña"
+            autocomplete="off"
+        >
+
+        <button
+            class="login-button"
+            onclick="login()"
+        >
+            Iniciar sesión
+        </button>
+
+        <div class="demo-note">
+            Interfaz ficticia para demostración.
+            No se almacenan ni transmiten credenciales.
+        </div>
 
     </div>
 
-  </div>
+</section>
 
 
-  <!-- APLICACIÓN -->
-  <div id="app">
+<!-- =========================
+     APP
+========================= -->
 
-    <header>
+<div id="app">
 
-      <div class="brand">
-        ✉ MailBox
-      </div>
+<header>
 
-      <div class="search">
+    <button
+        class="menu-button"
+        onclick="toggleSidebar()"
+    >
+        ☰
+    </button>
 
-        <span class="search-icon">🔍</span>
+    <div class="logo-header">
+        Mail
+    </div>
+
+    <div class="search">
+
+        <span>🔍</span>
 
         <input
-          type="text"
-          id="searchInput"
-          placeholder="Buscar mensajes..."
-          oninput="searchEmails()"
+            id="search"
+            type="text"
+            placeholder="Buscar en el correo"
+            oninput="searchEmails()"
         >
 
-      </div>
+    </div>
 
-      <div class="header-right">
+    <div class="header-actions">
 
         <button
-          class="theme-btn"
-          onclick="toggleDarkMode()"
-          title="Cambiar tema"
+            class="icon-button theme-button"
+            onclick="toggleDark()"
         >
-          🌙
+            ⚙
         </button>
 
         <div class="avatar">
-          EM
+            EM
         </div>
 
-      </div>
+    </div>
 
-    </header>
+</header>
 
 
-    <div class="layout">
+<div class="layout">
 
-      <!-- SIDEBAR -->
+    <!-- SIDEBAR -->
 
-      <aside>
+    <aside class="sidebar" id="sidebar">
 
         <button
-          class="compose"
-          onclick="openCompose()"
+            class="compose"
+            onclick="openCompose()"
         >
-          ✏️ Redactar
+            ✎ &nbsp; Redactar
         </button>
 
         <div
-          class="menu-item active"
-          onclick="showFolder('inbox', this)"
+            class="folder active"
+            onclick="folder('inbox',this)"
         >
-          📥
-          <span>Recibidos</span>
-          <span class="count">4</span>
+            📥
+            <span>Recibidos</span>
+            <span class="folder-count">4</span>
         </div>
 
         <div
-          class="menu-item"
-          onclick="showFolder('starred', this)"
+            class="folder"
+            onclick="folder('starred',this)"
         >
-          ⭐
-          <span>Destacados</span>
+            ⭐
+            <span>Destacados</span>
         </div>
 
         <div
-          class="menu-item"
-          onclick="showFolder('sent', this)"
+            class="folder"
+            onclick="folder('sent',this)"
         >
-          📤
-          <span>Enviados</span>
+            📤
+            <span>Enviados</span>
         </div>
 
         <div
-          class="menu-item"
-          onclick="showFolder('trash', this)"
+            class="folder"
+            onclick="folder('trash',this)"
         >
-          🗑️
-          <span>Papelera</span>
+            🗑
+            <span>Papelera</span>
         </div>
 
-      </aside>
+    </aside>
 
 
-      <!-- CONTENIDO -->
+    <!-- MAIN -->
 
-      <main>
+    <main>
 
-        <div id="inboxView">
+        <section id="inbox">
 
-          <div class="toolbar">
+            <div class="toolbar">
 
-            <button onclick="selectAll()">
-              ☑️
-            </button>
+                <button onclick="selectAll()">
+                    □
+                </button>
 
-            <button onclick="deleteSelected()">
-              🗑️
-            </button>
+                <button onclick="deleteSelected()">
+                    🗑
+                </button>
 
-            <button onclick="refreshEmails()">
-              🔄
-            </button>
+                <button onclick="refresh()">
+                    ↻
+                </button>
 
-          </div>
-
-          <div
-            class="mail-list"
-            id="mailList"
-          ></div>
-
-        </div>
-
-
-        <div id="messageView">
-
-          <button
-            class="back"
-            onclick="closeMessage()"
-          >
-            ← Volver
-          </button>
-
-          <div class="message-header">
+            </div>
 
             <div
-              class="message-avatar"
-              id="messageAvatar"
+                class="mail-container"
+                id="mailList"
+            ></div>
+
+        </section>
+
+
+        <section id="message">
+
+            <button
+                class="back"
+                onclick="closeMessage()"
             >
-              A
+                ← Volver
+            </button>
+
+            <div
+                class="message-title"
+                id="messageTitle"
+            ></div>
+
+            <div class="message-user">
+
+                <div
+                    class="message-avatar"
+                    id="messageAvatar"
+                >
+                </div>
+
+                <div>
+
+                    <strong id="messageSender"></strong>
+
+                    <div
+                        style="font-size:12px;color:#777"
+                        id="messageEmail"
+                    >
+                    </div>
+
+                </div>
+
             </div>
 
-            <div>
+            <div
+                class="message-content"
+                id="messageContent"
+            ></div>
 
-              <h2 id="messageSubject">
-                Mensaje
-              </h2>
+        </section>
 
-              <p id="messageSender">
-                remitente@example.com
-              </p>
+    </main>
 
-            </div>
-
-          </div>
-
-          <div
-            class="message-body"
-            id="messageBody"
-          ></div>
-
-        </div>
-
-      </main>
-
-    </div>
-
-  </div>
+</div>
 
 
-  <!-- REDACTAR -->
+<!-- MOBILE NAV -->
 
-  <div id="composeBox">
+<nav class="mobile-nav">
 
-    <div class="compose-header">
+    <button
+        class="active"
+        onclick="mobileFolder('inbox')"
+    >
+        <span>📥</span>
+        Recibidos
+    </button>
 
-      <strong>Nuevo mensaje</strong>
+    <button
+        onclick="mobileFolder('starred')"
+    >
+        <span>⭐</span>
+        Destacados
+    </button>
 
-      <button
-        class="close-compose"
-        onclick="closeCompose()"
-      >
-        ×
-      </button>
+    <button
+        onclick="openCompose()"
+    >
+        <span style="font-size:25px">＋</span>
+        Redactar
+    </button>
 
-    </div>
+    <button
+        onclick="mobileFolder('sent')"
+    >
+        <span>📤</span>
+        Enviados
+    </button>
 
-    <div class="compose-body">
+</nav>
 
-      <input
-        id="to"
-        placeholder="Para"
-        autocomplete="off"
-      >
 
-      <input
-        id="subject"
-        placeholder="Asunto"
-        autocomplete="off"
-      >
+<!-- COMPOSE -->
 
-      <textarea
-        id="body"
-        placeholder="Escribe tu mensaje..."
-      ></textarea>
+<div
+    class="compose-window"
+    id="compose"
+>
 
-      <button
-        class="send-btn"
-        onclick="sendEmail()"
-      >
-        Enviar
-      </button>
+    <div class="compose-title">
+
+        <strong>Nuevo mensaje</strong>
+
+        <button onclick="closeCompose()">
+            ×
+        </button>
 
     </div>
 
-  </div>
+    <div class="compose-content">
+
+        <input
+            id="to"
+            placeholder="Destinatario"
+            autocomplete="off"
+        >
+
+        <input
+            id="subject"
+            placeholder="Asunto"
+            autocomplete="off"
+        >
+
+        <textarea
+            id="body"
+            placeholder="Escribe un mensaje..."
+        ></textarea>
+
+        <button
+            class="send"
+            onclick="sendMail()"
+        >
+            Enviar
+        </button>
+
+    </div>
+
+</div>
+
+</div>
 
 
 <script>
 
-  /* =========================
-     DATOS FICTICIOS
-  ========================= */
+/* =========================
+   DATOS FICTICIOS
+========================= */
 
-  let emails = [
+let emails = [
 
-    {
-      id: 1,
-      sender: "Ana Martínez",
-      email: "ana@example.test",
-      subject: "Reunión de mañana",
-      preview: "Hola, ¿confirmamos la reunión para mañana?",
-      body:
+{
+id:1,
+sender:"Ana Martínez",
+email:"ana@example.test",
+subject:"Reunión de mañana",
+preview:"¿Confirmamos la reunión para mañana?",
+body:
 `Hola Emiliano,
 
 ¿Confirmamos la reunión para mañana?
@@ -829,465 +1081,496 @@ Nos vemos a las 10:00.
 
 Saludos,
 Ana`,
-      date: "20:35",
-      unread: true,
-      starred: false,
-      folder: "inbox"
-    },
+date:"20:35",
+unread:true,
+star:false,
+folder:"inbox"
+},
 
-    {
-      id: 2,
-      sender: "Diseño Multimedia",
-      email: "multimedia@example.test",
-      subject: "Nuevo proyecto disponible",
-      preview: "Ya puedes revisar los detalles del proyecto.",
-      body:
+{
+id:2,
+sender:"Diseño Multimedia",
+email:"multimedia@example.test",
+subject:"Nuevo proyecto disponible",
+preview:"Ya puedes revisar los detalles del proyecto.",
+body:
 `Hola,
 
 Ya puedes revisar los detalles del nuevo proyecto multimedia.
 
-Recuerda entregar los archivos antes de la fecha indicada.
+Recuerda revisar los archivos antes de la fecha indicada.
 
 Saludos,
 Equipo Multimedia`,
-      date: "18:42",
-      unread: true,
-      starred: true,
-      folder: "inbox"
-    },
+date:"18:42",
+unread:true,
+star:true,
+folder:"inbox"
+},
 
-    {
-      id: 3,
-      sender: "Carlos",
-      email: "carlos@example.test",
-      subject: "Fotos del evento",
-      preview: "Te envío las fotos que tomamos.",
-      body:
+{
+id:3,
+sender:"Carlos",
+email:"carlos@example.test",
+subject:"Fotos del evento",
+preview:"Te envío las fotografías que tomamos.",
+body:
 `Hola,
 
 Te envío las fotografías del evento.
 
-Cuando puedas revísalas y dime cuáles quieres utilizar.
+Cuando puedas revisa las imágenes y dime cuáles quieres utilizar.
 
 Carlos`,
-      date: "16:20",
-      unread: false,
-      starred: false,
-      folder: "inbox"
-    },
+date:"16:20",
+unread:false,
+star:false,
+folder:"inbox"
+},
 
-    {
-      id: 4,
-      sender: "Noticias Demo",
-      email: "noticias@example.test",
-      subject: "Boletín semanal",
-      preview: "Estas son las novedades de esta semana.",
-      body:
+{
+id:4,
+sender:"Noticias",
+email:"noticias@example.test",
+subject:"Boletín semanal",
+preview:"Estas son las novedades de esta semana.",
+body:
 `Hola,
 
 Estas son las principales novedades de esta semana.
 
 Gracias por leer nuestro boletín.`,
-      date: "12:05",
-      unread: false,
-      starred: false,
-      folder: "inbox"
-    }
+date:"12:05",
+unread:false,
+star:false,
+folder:"inbox"
+}
 
-  ];
-
-
-  /* =========================
-     LOGIN
-  ========================= */
-
-  function login() {
-
-    document.getElementById("loginScreen").style.display = "none";
-
-    document.getElementById("app").style.display = "block";
-
-    renderEmails();
-
-  }
+];
 
 
-  /* =========================
-     MOSTRAR EMAILS
-  ========================= */
-
-  function renderEmails(folder = "inbox", search = "") {
-
-    const list = document.getElementById("mailList");
-
-    list.innerHTML = "";
-
-    let filtered = emails.filter(email => {
-
-      if(folder === "starred") {
-        return email.starred;
-      }
-
-      return email.folder === folder;
-
-    });
+let currentFolder="inbox";
 
 
-    if(search) {
+/* =========================
+   LOGIN
+========================= */
 
-      filtered = filtered.filter(email =>
+function login(){
 
-        email.sender.toLowerCase().includes(search.toLowerCase()) ||
+    document.getElementById("login").style.display="none";
 
-        email.subject.toLowerCase().includes(search.toLowerCase()) ||
+    document.getElementById("app").style.display="block";
 
-        email.preview.toLowerCase().includes(search.toLowerCase())
+    render();
 
-      );
-
-    }
-
-
-    if(filtered.length === 0) {
-
-      list.innerHTML = `
-        <div style="
-          padding:50px;
-          text-align:center;
-          color:#777;
-        ">
-          📭<br><br>
-          No hay mensajes aquí.
-        </div>
-      `;
-
-      return;
-
-    }
+}
 
 
-    filtered.forEach(email => {
+/* =========================
+   RENDER
+========================= */
 
-      const mail = document.createElement("div");
+function render(){
 
-      mail.className = "mail";
+    const list=document.getElementById("mailList");
 
-      if(email.unread) {
-        mail.classList.add("unread");
-      }
+    list.innerHTML="";
 
+    let search=document
+        .getElementById("search")
+        .value
+        .toLowerCase();
 
-      mail.innerHTML = `
+    let filtered=emails.filter(mail=>{
 
-        <input
-          type="checkbox"
-          class="mail-check"
-          data-id="${email.id}"
-          onclick="event.stopPropagation()"
-        >
+        if(currentFolder==="starred")
+            return mail.star;
 
-        <span
-          class="star ${email.starred ? "active" : ""}"
-          onclick="toggleStar(event, ${email.id})"
-        >
-          ${email.starred ? "★" : "☆"}
-        </span>
-
-        <div class="sender">
-          ${email.sender}
-        </div>
-
-        <div class="subject">
-          ${email.subject}
-          <span class="preview">
-            — ${email.preview}
-          </span>
-        </div>
-
-        <div class="date">
-          ${email.date}
-        </div>
-
-      `;
-
-
-      mail.onclick = () => openMessage(email.id);
-
-      list.appendChild(mail);
+        return mail.folder===currentFolder;
 
     });
 
-  }
+
+    if(search){
+
+        filtered=filtered.filter(mail=>
+
+            mail.sender.toLowerCase().includes(search) ||
+            mail.subject.toLowerCase().includes(search) ||
+            mail.preview.toLowerCase().includes(search)
+
+        );
+
+    }
 
 
-  /* =========================
-     ABRIR MENSAJE
-  ========================= */
+    if(filtered.length===0){
 
-  function openMessage(id) {
+        list.innerHTML=`
+            <div style="
+                padding:60px 20px;
+                text-align:center;
+                color:#777;
+            ">
+                <div style="font-size:35px">📭</div>
+                <br>
+                No hay mensajes.
+            </div>
+        `;
 
-    const email = emails.find(e => e.id === id);
+        return;
 
-    if(!email) return;
-
-    email.unread = false;
-
-    document.getElementById("inboxView").style.display = "none";
-
-    document.getElementById("messageView").style.display = "block";
-
-    document.getElementById("messageSubject").textContent =
-      email.subject;
-
-    document.getElementById("messageSender").textContent =
-      email.sender + " <" + email.email + ">";
-
-    document.getElementById("messageBody").textContent =
-      email.body;
-
-    document.getElementById("messageAvatar").textContent =
-      email.sender.charAt(0);
-
-  }
+    }
 
 
-  /* =========================
-     CERRAR MENSAJE
-  ========================= */
+    filtered.forEach(mail=>{
 
-  function closeMessage() {
+        const item=document.createElement("div");
 
-    document.getElementById("messageView").style.display = "none";
+        item.className="email";
 
-    document.getElementById("inboxView").style.display = "block";
-
-    renderEmails();
-
-  }
+        if(mail.unread)
+            item.classList.add("unread");
 
 
-  /* =========================
-     FAVORITOS
-  ========================= */
+        item.innerHTML=`
 
-  function toggleStar(event, id) {
+            <input
+                class="checkbox"
+                type="checkbox"
+                data-id="${mail.id}"
+                onclick="event.stopPropagation()"
+            >
+
+            <div
+                class="star ${mail.star ? "selected":""}"
+                onclick="toggleStar(event,${mail.id})"
+            >
+                ${mail.star ? "★":"☆"}
+            </div>
+
+            <div class="email-info">
+                ${mail.sender}
+            </div>
+
+            <div class="email-subject">
+
+                ${mail.subject}
+
+                <span class="email-preview">
+                    — ${mail.preview}
+                </span>
+
+            </div>
+
+            <div class="email-date">
+                ${mail.date}
+            </div>
+        `;
+
+
+        item.onclick=()=>openMessage(mail.id);
+
+        list.appendChild(item);
+
+    });
+
+}
+
+
+/* =========================
+   OPEN MESSAGE
+========================= */
+
+function openMessage(id){
+
+    const mail=emails.find(x=>x.id===id);
+
+    if(!mail)return;
+
+    mail.unread=false;
+
+    document.getElementById("inbox").style.display="none";
+
+    document.getElementById("message").style.display="block";
+
+    document.getElementById("messageTitle").textContent=
+        mail.subject;
+
+    document.getElementById("messageSender").textContent=
+        mail.sender;
+
+    document.getElementById("messageEmail").textContent=
+        mail.email;
+
+    document.getElementById("messageAvatar").textContent=
+        mail.sender.charAt(0).toUpperCase();
+
+    document.getElementById("messageContent").textContent=
+        mail.body;
+
+}
+
+
+/* =========================
+   CLOSE MESSAGE
+========================= */
+
+function closeMessage(){
+
+    document.getElementById("message").style.display="none";
+
+    document.getElementById("inbox").style.display="block";
+
+    render();
+
+}
+
+
+/* =========================
+   STAR
+========================= */
+
+function toggleStar(event,id){
 
     event.stopPropagation();
 
-    const email = emails.find(e => e.id === id);
+    const mail=emails.find(x=>x.id===id);
 
-    if(email) {
+    mail.star=!mail.star;
 
-      email.starred = !email.starred;
+    render();
 
-      renderEmails();
-
-    }
-
-  }
+}
 
 
-  /* =========================
-     CARPETAS
-  ========================= */
+/* =========================
+   FOLDERS
+========================= */
 
-  let currentFolder = "inbox";
+function folder(name,element){
 
-
-  function showFolder(folder, element) {
-
-    currentFolder = folder;
+    currentFolder=name;
 
     document
-      .querySelectorAll(".menu-item")
-      .forEach(item => item.classList.remove("active"));
+        .querySelectorAll(".folder")
+        .forEach(x=>x.classList.remove("active"));
 
     element.classList.add("active");
 
-    document.getElementById("messageView").style.display = "none";
+    closeMessage();
 
-    document.getElementById("inboxView").style.display = "block";
+    render();
 
-    renderEmails(folder);
-
-  }
+}
 
 
-  /* =========================
-     BÚSQUEDA
-  ========================= */
+/* =========================
+   MOBILE FOLDERS
+========================= */
 
-  function searchEmails() {
+function mobileFolder(name){
 
-    const search =
-      document.getElementById("searchInput").value;
+    currentFolder=name;
 
-    renderEmails(currentFolder, search);
+    document.getElementById("message").style.display="none";
 
-  }
+    document.getElementById("inbox").style.display="block";
+
+    render();
+
+}
 
 
-  /* =========================
-     SELECCIONAR TODOS
-  ========================= */
+/* =========================
+   SEARCH
+========================= */
 
-  function selectAll() {
+function searchEmails(){
 
-    const checks =
-      document.querySelectorAll(".mail-check");
+    render();
 
-    checks.forEach(check => {
+}
 
-      check.checked = !check.checked;
+
+/* =========================
+   SELECT ALL
+========================= */
+
+function selectAll(){
+
+    const checks=
+        document.querySelectorAll(".checkbox");
+
+    checks.forEach(check=>{
+
+        check.checked=!check.checked;
 
     });
 
-  }
+}
 
 
-  /* =========================
-     ELIMINAR
-  ========================= */
+/* =========================
+   DELETE
+========================= */
 
-  function deleteSelected() {
+function deleteSelected(){
 
-    const selected =
-      document.querySelectorAll(".mail-check:checked");
+    const selected=
+        document.querySelectorAll(".checkbox:checked");
 
-    if(selected.length === 0) {
+    if(selected.length===0){
 
-      alert("Selecciona al menos un correo.");
+        alert("Selecciona al menos un mensaje.");
 
-      return;
+        return;
 
     }
 
 
-    selected.forEach(check => {
+    selected.forEach(check=>{
 
-      const id = Number(check.dataset.id);
+        const id=Number(check.dataset.id);
 
-      const email = emails.find(e => e.id === id);
+        const mail=emails.find(x=>x.id===id);
 
-      if(email) {
-
-        email.folder = "trash";
-
-      }
+        if(mail)
+            mail.folder="trash";
 
     });
 
 
-    renderEmails(currentFolder);
+    render();
 
-  }
-
-
-  /* =========================
-     REFRESCAR
-  ========================= */
-
-  function refreshEmails() {
-
-    renderEmails(currentFolder);
-
-  }
+}
 
 
-  /* =========================
-     REDACTAR
-  ========================= */
+/* =========================
+   REFRESH
+========================= */
 
-  function openCompose() {
+function refresh(){
 
-    document.getElementById("composeBox").style.display = "block";
+    render();
 
-  }
-
-
-  function closeCompose() {
-
-    document.getElementById("composeBox").style.display = "none";
-
-  }
+}
 
 
-  /* =========================
-     ENVIAR
-  ========================= */
+/* =========================
+   COMPOSE
+========================= */
 
-  function sendEmail() {
+function openCompose(){
 
-    const to =
-      document.getElementById("to").value.trim();
+    document.getElementById("compose").style.display="block";
 
-    const subject =
-      document.getElementById("subject").value.trim();
-
-    const body =
-      document.getElementById("body").value.trim();
+}
 
 
-    if(!to || !subject || !body) {
+function closeCompose(){
 
-      alert("Completa todos los campos.");
+    document.getElementById("compose").style.display="none";
 
-      return;
+}
+
+
+/* =========================
+   SEND
+========================= */
+
+function sendMail(){
+
+    const to=document
+        .getElementById("to")
+        .value
+        .trim();
+
+    const subject=document
+        .getElementById("subject")
+        .value
+        .trim();
+
+    const body=document
+        .getElementById("body")
+        .value
+        .trim();
+
+
+    if(!to || !subject || !body){
+
+        alert("Completa todos los campos.");
+
+        return;
 
     }
 
 
     emails.unshift({
 
-      id: Date.now(),
+        id:Date.now(),
 
-      sender: "Yo",
+        sender:"Yo",
 
-      email: "yo@example.test",
+        email:"demo@example.test",
 
-      subject: subject,
+        subject:subject,
 
-      preview: body.substring(0, 60),
+        preview:body.substring(0,60),
 
-      body: body,
+        body:body,
 
-      date: "Ahora",
+        date:"Ahora",
 
-      unread: false,
+        unread:false,
 
-      starred: false,
+        star:false,
 
-      folder: "sent"
+        folder:"sent"
 
     });
 
 
-    document.getElementById("to").value = "";
+    document.getElementById("to").value="";
 
-    document.getElementById("subject").value = "";
+    document.getElementById("subject").value="";
 
-    document.getElementById("body").value = "";
+    document.getElementById("body").value="";
 
 
     closeCompose();
 
     alert("Mensaje enviado en la simulación.");
 
-  }
+}
 
 
-  /* =========================
-     MODO OSCURO
-  ========================= */
+/* =========================
+   DARK MODE
+========================= */
 
-  function toggleDarkMode() {
+function toggleDark(){
 
     document.body.classList.toggle("dark");
 
-  }
+}
 
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+function toggleSidebar(){
+
+    alert(
+        "En esta versión móvil, utiliza la barra inferior para navegar."
+    );
+
+}
 
 </script>
 
 </body>
 </html>
+```
