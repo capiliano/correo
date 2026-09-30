@@ -17,13 +17,14 @@
 
 body{
     background:#fff;
-    color:#111;
+    color:#202124;
     overflow:hidden;
 }
 
-/* =========================
+
+/* =====================================================
    LOGIN
-========================= */
+===================================================== */
 
 #login{
     position:fixed;
@@ -105,19 +106,20 @@ body{
 }
 
 
-/* =========================
+/* =====================================================
    APP
-========================= */
+===================================================== */
 
 #app{
     display:none;
     height:100vh;
+    background:#fff;
 }
 
 
-/* =========================
+/* =====================================================
    BARRA SUPERIOR
-========================= */
+===================================================== */
 
 .top{
     height:66px;
@@ -126,6 +128,7 @@ body{
     align-items:center;
     padding:0 18px;
     gap:17px;
+    background:#fff;
 }
 
 .menu{
@@ -162,9 +165,9 @@ body{
 }
 
 
-/* =========================
+/* =====================================================
    BUSCADOR
-========================= */
+===================================================== */
 
 .search{
     height:62px;
@@ -172,20 +175,20 @@ body{
     display:flex;
     align-items:center;
     padding:0 18px;
+    background:#fff;
 }
 
 .search-icon{
     font-size:29px;
     color:#666;
     margin-right:13px;
-    font-weight:300;
 }
 
 .search input{
     width:100%;
     border:none;
     outline:none;
-    font-size:22px;
+    font-size:21px;
     color:#222;
 }
 
@@ -194,9 +197,9 @@ body{
 }
 
 
-/* =========================
+/* =====================================================
    BANDEJA
-========================= */
+===================================================== */
 
 .inbox{
     height:calc(100vh - 128px);
@@ -231,14 +234,14 @@ body{
 }
 
 .sender{
-    font-size:19px;
+    font-size:18px;
     font-weight:600;
     line-height:1.15;
     margin-bottom:5px;
 }
 
 .subject{
-    font-size:16px;
+    font-size:15.5px;
     line-height:1.25;
     white-space:nowrap;
     overflow:hidden;
@@ -247,7 +250,7 @@ body{
 
 .preview{
     color:#888;
-    font-size:14px;
+    font-size:13.5px;
     line-height:1.3;
     margin-top:3px;
     white-space:nowrap;
@@ -256,14 +259,14 @@ body{
 }
 
 .date{
-    font-size:14px;
+    font-size:13px;
     color:#1769d2;
     white-space:nowrap;
     padding-top:2px;
 }
 
 .star{
-    font-size:27px;
+    font-size:26px;
     color:#ccc;
     grid-column:3;
     text-align:right;
@@ -277,9 +280,9 @@ body{
 }
 
 
-/* =========================
-   MENSAJE
-========================= */
+/* =====================================================
+   CORREO ABIERTO
+===================================================== */
 
 #message{
     display:none;
@@ -288,61 +291,253 @@ body{
     left:0;
     right:0;
     bottom:0;
-    background:#fff;
+    background:#f5f6f8;
     overflow-y:auto;
 }
 
+
+/* CABECERA */
+
 .message-top{
-    height:56px;
-    border-bottom:1px solid #ddd;
+    height:57px;
+    border-bottom:1px solid #d9d9d9;
     display:flex;
     align-items:center;
-    padding:0 17px;
+    padding:0 16px;
+    background:#fff;
+    position:sticky;
+    top:0;
+    z-index:10;
 }
 
 .back{
     border:none;
     background:none;
-    font-size:27px;
-    color:#555;
+    font-size:29px;
+    color:#444;
     cursor:pointer;
-    margin-right:16px;
+    margin-right:17px;
 }
 
 .message-title{
-    font-size:19px;
+    font-size:18px;
     font-weight:500;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
 }
 
-.message-content{
-    padding:22px;
+
+/* CONTENEDOR */
+
+.message-card{
+    background:#fff;
+    margin:0;
+    min-height:calc(100vh - 185px);
+    padding:25px 32px 90px;
+    border-bottom:1px solid #ddd;
+}
+
+
+/* REMITENTE */
+
+.message-header{
+    display:flex;
+    align-items:flex-start;
+    gap:13px;
+}
+
+.avatar{
+    width:48px;
+    height:48px;
+    min-width:48px;
+    border-radius:50%;
+    background:#1769d2;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:19px;
+    font-weight:500;
+}
+
+.sender-info{
+    flex:1;
+    min-width:0;
 }
 
 .message-sender{
-    font-size:20px;
+    font-size:19px;
     font-weight:600;
-    margin-bottom:5px;
+    color:#202124;
+    line-height:1.2;
 }
 
 .message-address{
-    color:#777;
     font-size:13px;
-    margin-bottom:26px;
+    color:#6b6b6b;
+    margin-top:5px;
+    line-height:1.4;
+}
+
+.message-date{
+    font-size:12px;
+    color:#777;
+    white-space:nowrap;
+    margin-top:4px;
+}
+
+
+/* DESTINATARIO */
+
+.to-line{
+    font-size:13px;
+    color:#777;
+    margin-top:8px;
+}
+
+
+/* ADJUNTOS */
+
+.attachments{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    margin-top:22px;
+    padding-bottom:5px;
+}
+
+.attachment{
+    min-width:190px;
+    height:62px;
+    border:1px solid #d8d8d8;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    padding:9px;
+    background:#fff;
+}
+
+.pdf-icon{
+    width:34px;
+    height:38px;
+    border:1px solid #ddd;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-right:9px;
+    font-size:10px;
+    color:#d84b3e;
+    font-weight:bold;
+}
+
+.attachment-name{
+    font-size:12px;
+    font-weight:500;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.attachment-size{
+    color:#777;
+    font-size:11px;
+    margin-top:3px;
+}
+
+
+/* CUERPO */
+
+.message-divider{
+    border:0;
+    border-top:1px solid #ddd;
+    margin:20px 0 28px;
 }
 
 .message-body{
-    font-size:16px;
-    line-height:1.65;
+    font-size:17px;
+    line-height:1.75;
+    color:#282828;
     white-space:pre-line;
+    max-width:900px;
+}
+
+.message-body a{
+    color:#1769d2;
+    text-decoration:none;
+    word-break:break-all;
+}
+
+.message-body a:hover{
+    text-decoration:underline;
 }
 
 
-/* =========================
+/* BOTÓN RESPONDER */
+
+.reply-area{
+    margin-top:45px;
+    border-top:1px solid #eee;
+    padding-top:22px;
+}
+
+.reply-button{
+    height:48px;
+    border:1px solid #c9c9c9;
+    border-radius:25px;
+    background:#fff;
+    padding:0 22px;
+    color:#444;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.reply-button:hover{
+    background:#f5f5f5;
+}
+
+
+/* =====================================================
+   MENÚ LATERAL
+===================================================== */
+
+#sideMenu{
+    display:none;
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    width:275px;
+    background:white;
+    z-index:4000;
+    box-shadow:5px 0 25px rgba(0,0,0,.2);
+}
+
+.side-title{
+    height:66px;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    align-items:center;
+    padding:0 18px;
+    font-size:21px;
+    color:#555;
+}
+
+.side-item{
+    padding:15px 23px;
+    font-size:15px;
+    cursor:pointer;
+    border-bottom:1px solid #eee;
+}
+
+.side-item:hover{
+    background:#f5f5f5;
+}
+
+
+/* =====================================================
    REDACTAR
-========================= */
+===================================================== */
 
 #compose{
     display:none;
@@ -407,47 +602,9 @@ body{
 }
 
 
-/* =========================
-   MENU LATERAL
-========================= */
-
-#sideMenu{
-    display:none;
-    position:fixed;
-    top:0;
-    bottom:0;
-    left:0;
-    width:275px;
-    background:white;
-    z-index:4000;
-    box-shadow:5px 0 25px rgba(0,0,0,.2);
-}
-
-.side-title{
-    height:66px;
-    border-bottom:1px solid #ddd;
-    display:flex;
-    align-items:center;
-    padding:0 18px;
-    font-size:21px;
-    color:#555;
-}
-
-.side-item{
-    padding:15px 23px;
-    font-size:15px;
-    cursor:pointer;
-    border-bottom:1px solid #eee;
-}
-
-.side-item:hover{
-    background:#f5f5f5;
-}
-
-
-/* =========================
-   RESPONSIVE
-========================= */
+/* =====================================================
+   CELULAR
+===================================================== */
 
 @media(max-width:600px){
 
@@ -494,7 +651,6 @@ body{
     .email{
         min-height:105px;
         padding:12px 12px 11px 11px;
-        grid-template-columns:25px 1fr auto;
     }
 
     .sender{
@@ -502,20 +658,78 @@ body{
     }
 
     .subject{
-        font-size:15.5px;
+        font-size:15px;
     }
 
     .preview{
-        font-size:13.5px;
-    }
-
-    .date{
         font-size:13px;
     }
 
-    .star{
-        font-size:26px;
+    .date{
+        font-size:12.5px;
     }
+
+
+    /* CORREO ABIERTO */
+
+    #message{
+        top:128px;
+        background:#f5f6f8;
+    }
+
+    .message-top{
+        height:56px;
+        padding:0 12px;
+    }
+
+    .message-title{
+        font-size:17px;
+    }
+
+    .message-card{
+        padding:20px 16px 80px;
+        min-height:calc(100vh - 184px);
+    }
+
+    .avatar{
+        width:42px;
+        height:42px;
+        min-width:42px;
+        font-size:16px;
+    }
+
+    .message-sender{
+        font-size:17px;
+    }
+
+    .message-address{
+        font-size:12px;
+    }
+
+    .message-date{
+        font-size:11px;
+    }
+
+    .to-line{
+        font-size:12px;
+    }
+
+    .message-body{
+        font-size:16px;
+        line-height:1.7;
+    }
+
+    .attachment{
+        min-width:180px;
+    }
+
+    .reply-button{
+        width:100%;
+        text-align:left;
+    }
+
+
+    /* REDACTAR */
 
     #compose{
         width:100%;
@@ -529,28 +743,12 @@ body{
         height:calc(100vh - 220px);
     }
 
-    #message{
-        top:128px;
-    }
-
-    .message-content{
-        padding:20px 17px;
-    }
-
-    .message-title{
-        font-size:18px;
-    }
-
-    .message-body{
-        font-size:15.5px;
-    }
-
 }
 
 
-/* =========================
-   PANTALLAS PEQUEÑAS
-========================= */
+/* =====================================================
+   PANTALLAS MUY PEQUEÑAS
+===================================================== */
 
 @media(max-width:380px){
 
@@ -571,15 +769,19 @@ body{
     }
 
     .subject{
-        font-size:14.5px;
+        font-size:14px;
     }
 
     .preview{
-        font-size:13px;
+        font-size:12.5px;
     }
 
-    .date{
-        font-size:12px;
+    .message-card{
+        padding:18px 13px 70px;
+    }
+
+    .message-body{
+        font-size:15px;
     }
 
 }
@@ -587,10 +789,13 @@ body{
 </style>
 </head>
 
+
 <body>
 
 
-<!-- LOGIN -->
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
 <div id="login">
 
@@ -614,7 +819,6 @@ body{
             id="loginEmail"
             type="text"
             placeholder="Correo electrónico"
-            value=""
         >
 
         <input
@@ -639,10 +843,15 @@ body{
 </div>
 
 
-<!-- APP -->
+
+<!-- =====================================================
+     APLICACIÓN
+===================================================== -->
 
 <div id="app">
 
+
+    <!-- BARRA SUPERIOR -->
 
     <div class="top">
 
@@ -655,7 +864,7 @@ body{
 
         <div class="title">
             <span id="folderTitle">Principal</span>
-            <span id="count">14</span>
+            <span id="count">10</span>
         </div>
 
         <button
@@ -694,7 +903,9 @@ body{
     ></div>
 
 
-    <!-- MENSAJE -->
+    <!-- =================================================
+         MENSAJE ABIERTO
+    ================================================== -->
 
     <div id="message">
 
@@ -714,22 +925,95 @@ body{
 
         </div>
 
-        <div class="message-content">
+
+        <div class="message-card">
+
+            <div class="message-header">
+
+                <div
+                    class="avatar"
+                    id="messageAvatar"
+                >
+                    EM
+                </div>
+
+                <div class="sender-info">
+
+                    <div
+                        class="message-sender"
+                        id="messageSender"
+                    ></div>
+
+                    <div
+                        class="message-address"
+                        id="messageAddress"
+                    ></div>
+
+                    <div
+                        class="to-line"
+                        id="messageTo"
+                    ></div>
+
+                </div>
+
+                <div
+                    class="message-date"
+                    id="messageDate"
+                ></div>
+
+            </div>
+
+
+            <!-- ADJUNTOS -->
 
             <div
-                class="message-sender"
-                id="messageSender"
-            ></div>
+                class="attachments"
+                id="attachments"
+                style="display:none;"
+            >
 
-            <div
-                class="message-address"
-                id="messageAddress"
-            ></div>
+                <div class="attachment">
+
+                    <div class="pdf-icon">
+                        PDF
+                    </div>
+
+                    <div>
+
+                        <div class="attachment-name">
+                            Documento.pdf
+                        </div>
+
+                        <div class="attachment-size">
+                            PDF
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <hr class="message-divider">
+
 
             <div
                 class="message-body"
                 id="messageBody"
             ></div>
+
+
+            <div class="reply-area">
+
+                <button
+                    class="reply-button"
+                    onclick="replyMessage()"
+                >
+                    ↩ &nbsp; Responder
+                </button>
+
+            </div>
 
         </div>
 
@@ -738,7 +1022,10 @@ body{
 </div>
 
 
-<!-- MENÚ -->
+
+<!-- =====================================================
+     MENÚ LATERAL
+===================================================== -->
 
 <div id="sideMenu">
 
@@ -786,7 +1073,10 @@ body{
 </div>
 
 
-<!-- REDACTAR -->
+
+<!-- =====================================================
+     REDACTAR
+===================================================== -->
 
 <div id="compose">
 
@@ -829,16 +1119,19 @@ body{
 </div>
 
 
+
 <script>
 
 
-/* =========================
+/* =====================================================
    CORREOS
-========================= */
+===================================================== */
 
 let emails = [
 
-/* PRINCIPAL */
+/* =========================
+   BANDEJA PRINCIPAL
+========================= */
 
 {
     id:1,
@@ -846,6 +1139,7 @@ let emails = [
     subject:"Nuevas funciones para tus videos",
     preview:"Descubre las novedades que llegan a YouTube este mes...",
     date:"9:18",
+    fullDate:"29 sept 2026, 09:18",
     address:"youtube@notifications.example",
     body:
 `Hola,
@@ -866,6 +1160,7 @@ Equipo de YouTube`,
     subject:"Tu canal tuvo actividad esta semana",
     preview:"Consulta las estadísticas más recientes de tu canal...",
     date:"8:42",
+    fullDate:"29 sept 2026, 08:42",
     address:"studio@notifications.example",
     body:
 `Hola,
@@ -884,6 +1179,7 @@ Revisa las visualizaciones, interacción y rendimiento de tus contenidos desde Y
     subject:"Tu nueva música favorita está aquí",
     preview:"Tenemos recomendaciones preparadas para ti...",
     date:"Ayer",
+    fullDate:"28 sept 2026",
     address:"music@notifications.example",
     body:
 `Hola,
@@ -902,6 +1198,7 @@ Abre YouTube Music para descubrir tus recomendaciones de esta semana.`,
     subject:"Ideas para mejorar tus campañas",
     preview:"Descubre nuevas herramientas para tus anuncios...",
     date:"Ayer",
+    fullDate:"28 sept 2026",
     address:"ads@notifications.example",
     body:
 `Hola,
@@ -919,7 +1216,8 @@ Consulta las novedades disponibles en Google Ads.`,
     sender:"Canva",
     subject:"Nuevas plantillas para tus proyectos",
     preview:"Descubre diseños nuevos para tus próximos proyectos...",
-    date:"Ayer",
+    date:"28 sept",
+    fullDate:"28 sept 2026",
     address:"design@notifications.example",
     body:
 `Hola,
@@ -937,7 +1235,8 @@ Explora las novedades y encuentra ideas para tus próximos diseños.`,
     sender:"Adobe",
     subject:"Novedades de Creative Cloud",
     preview:"Conoce las nuevas herramientas disponibles...",
-    date:"28 sept",
+    date:"27 sept",
+    fullDate:"27 sept 2026",
     address:"creative@notifications.example",
     body:
 `Hola,
@@ -955,7 +1254,8 @@ Descubre las novedades de Photoshop, Premiere Pro y otras aplicaciones.`,
     sender:"Spotify",
     subject:"Descubre música nueva esta semana",
     preview:"Tus recomendaciones musicales ya están listas...",
-    date:"27 sept",
+    date:"26 sept",
+    fullDate:"26 sept 2026",
     address:"music@notifications.example",
     body:
 `Hola,
@@ -973,28 +1273,31 @@ Descubre canciones, artistas y playlists seleccionadas para ti.`,
     sender:"Apple",
     subject:"Resumen de actividad",
     preview:"Consulta las novedades y actividad reciente...",
-    date:"26 sept",
+    date:"25 sept",
+    fullDate:"25 sept 2026",
     address:"updates@notifications.example",
     body:
 `Hola,
 
 Este es tu resumen de novedades y actividad reciente.
 
-Puedes consultar más información desde tus servicios de Apple.`,
+Puedes consultar más información desde tus servicios.`,
     unread:false,
     star:false,
     folder:"inbox"
 },
 
-
-/* DESTACADOS */
+/* =========================
+   DESTACADO
+========================= */
 
 {
     id:9,
     sender:"YouTube Creator",
     subject:"Consejos para mejorar tu próximo video",
     preview:"Mira algunas recomendaciones para creadores...",
-    date:"25 sept",
+    date:"24 sept",
+    fullDate:"24 sept 2026",
     address:"creator@notifications.example",
     body:
 `Hola,
@@ -1008,16 +1311,60 @@ Revisa las herramientas disponibles para creadores.`,
 },
 
 
-/* ENVIADOS */
+/* =====================================================
+   ENVIADOS
+===================================================== */
 
 {
     id:10,
+
     sender:"Yo",
-    subject:"Consulta sobre herramientas para YouTube",
-    preview:"Hola, quisiera conocer más información sobre las herramientas...",
-    date:"9:02",
+
+    subject:"Entrega de Deberes: Dictado y Video",
+
+    preview:
+    "Buenas tardes, profesora Gioconda. Soy Emiliano Chuva, estudiante de la carrera de Diseño Multimedia...",
+
+    date:"18:48",
+
+    fullDate:"dom 27 sept 2026, 18:48",
+
     address:"emiliano.ch.mino@gmail.com",
+
+    to:"gbeltran@ups.edu.ec",
+
+    body:
+`Buenas tardes, profesora Gioconda.
+
+Soy Emiliano Chuva, estudiante de la carrera de Diseño Multimedia.
+
+Le envío la tarea del dictado y video sobre la evolución de los videojuegos desde los 80 hasta la actualidad.
+
+https://canva.link/7xrzj49wlcy09z0`,
+
+    unread:false,
+    star:false,
+    folder:"sent"
+},
+
+{
+    id:11,
+
+    sender:"Yo",
+
+    subject:"Consulta sobre herramientas para YouTube",
+
+    preview:
+    "Hola, quisiera conocer más información sobre las herramientas disponibles...",
+
+    date:"17:20",
+
+    fullDate:"26 sept 2026, 17:20",
+
+    address:"emiliano.ch.mino@gmail.com",
+
     to:"YouTube Creator Support",
+
     body:
 `Hola,
 
@@ -1028,19 +1375,30 @@ También me gustaría saber qué opciones existen para mejorar la edición y pub
 Gracias por la información.
 
 Saludos.`,
+
     unread:false,
     star:false,
     folder:"sent"
 },
 
 {
-    id:11,
+    id:12,
+
     sender:"Yo",
+
     subject:"Consulta sobre YouTube Studio",
-    preview:"Buenas tardes, tengo una consulta sobre las estadísticas...",
-    date:"Ayer",
+
+    preview:
+    "Buenas tardes, tengo una consulta sobre las estadísticas...",
+
+    date:"15:42",
+
+    fullDate:"25 sept 2026, 15:42",
+
     address:"emiliano.ch.mino@gmail.com",
+
     to:"YouTube Studio",
+
     body:
 `Buenas tardes,
 
@@ -1049,19 +1407,30 @@ Tengo una consulta sobre las estadísticas que aparecen en YouTube Studio.
 Quisiera conocer cómo se actualizan algunos datos de rendimiento del canal.
 
 Muchas gracias.`,
+
     unread:false,
     star:false,
     folder:"sent"
 },
 
 {
-    id:12,
+    id:13,
+
     sender:"Yo",
+
     subject:"Información sobre campaña",
-    preview:"Hola, quisiera recibir información sobre las opciones disponibles...",
-    date:"Ayer",
+
+    preview:
+    "Hola, quisiera recibir información sobre las opciones disponibles...",
+
+    date:"12:35",
+
+    fullDate:"24 sept 2026, 12:35",
+
     address:"emiliano.ch.mino@gmail.com",
+
     to:"Google Ads",
+
     body:
 `Hola,
 
@@ -1070,19 +1439,30 @@ Quisiera recibir información sobre las opciones disponibles para una campaña p
 Me interesa conocer las herramientas de planificación y administración.
 
 Saludos.`,
+
     unread:false,
     star:false,
     folder:"sent"
 },
 
 {
-    id:13,
+    id:14,
+
     sender:"Yo",
+
     subject:"Consulta sobre diseño",
-    preview:"Hola, tengo una consulta sobre las nuevas herramientas...",
-    date:"28 sept",
+
+    preview:
+    "Hola, tengo una consulta sobre las nuevas herramientas...",
+
+    date:"19:10",
+
+    fullDate:"23 sept 2026, 19:10",
+
     address:"emiliano.ch.mino@gmail.com",
+
     to:"Canva",
+
     body:
 `Hola,
 
@@ -1091,25 +1471,7 @@ Tengo una consulta sobre las nuevas herramientas de diseño.
 Quisiera conocer más detalles sobre las funciones disponibles para crear contenido audiovisual.
 
 Gracias.`,
-    unread:false,
-    star:false,
-    folder:"sent"
-},
 
-{
-    id:14,
-    sender:"Yo",
-    subject:"Consulta sobre Premiere Pro",
-    preview:"Buenas, quisiera conocer las novedades de la aplicación...",
-    date:"27 sept",
-    address:"emiliano.ch.mino@gmail.com",
-    to:"Adobe",
-    body:
-`Buenas,
-
-Quisiera conocer las novedades recientes de Premiere Pro y las herramientas disponibles para edición de video.
-
-Gracias por la información.`,
     unread:false,
     star:false,
     folder:"sent"
@@ -1117,60 +1479,29 @@ Gracias por la información.`,
 
 {
     id:15,
+
     sender:"Yo",
-    subject:"Consulta sobre música",
-    preview:"Hola, quisiera información sobre las opciones disponibles...",
-    date:"26 sept",
+
+    subject:"Consulta sobre Premiere Pro",
+
+    preview:
+    "Buenas, quisiera conocer las novedades de la aplicación...",
+
+    date:"16:24",
+
+    fullDate:"22 sept 2026, 16:24",
+
     address:"emiliano.ch.mino@gmail.com",
-    to:"YouTube Music",
+
+    to:"Adobe",
+
     body:
-`Hola,
+`Buenas,
 
-Quisiera recibir información sobre las opciones disponibles en YouTube Music para descubrir nuevos artistas y crear playlists.
+Quisiera conocer las novedades recientes de Premiere Pro y las herramientas disponibles para edición de video.
 
-Saludos.`,
-    unread:false,
-    star:false,
-    folder:"sent"
-},
+Gracias por la información.`,
 
-{
-    id:16,
-    sender:"Yo",
-    subject:"Consulta sobre contenido para creadores",
-    preview:"Hola, me gustaría recibir información sobre recursos...",
-    date:"25 sept",
-    address:"emiliano.ch.mino@gmail.com",
-    to:"YouTube Creator",
-    body:
-`Hola,
-
-Me gustaría recibir información sobre los recursos disponibles para creadores de contenido.
-
-Quisiera conocer algunas recomendaciones para mejorar mis próximos proyectos audiovisuales.
-
-Gracias.`,
-    unread:false,
-    star:false,
-    folder:"sent"
-},
-
-{
-    id:17,
-    sender:"Yo",
-    subject:"Solicitud de información",
-    preview:"Buenas tardes, quisiera conocer más detalles...",
-    date:"24 sept",
-    address:"emiliano.ch.mino@gmail.com",
-    to:"Servicio de soporte",
-    body:
-`Buenas tardes,
-
-Quisiera conocer más detalles sobre las herramientas y servicios disponibles.
-
-Quedo atento a su respuesta.
-
-Saludos cordiales.`,
     unread:false,
     star:false,
     folder:"sent"
@@ -1182,9 +1513,9 @@ Saludos cordiales.`,
 let currentFolder="inbox";
 
 
-/* =========================
+/* =====================================================
    LOGIN
-========================= */
+===================================================== */
 
 function login(){
 
@@ -1197,9 +1528,9 @@ function login(){
 }
 
 
-/* =========================
+/* =====================================================
    RENDER
-========================= */
+===================================================== */
 
 function render(){
 
@@ -1313,15 +1644,16 @@ function render(){
 }
 
 
-/* =========================
+/* =====================================================
    ABRIR CORREO
-========================= */
+===================================================== */
 
 function openMessage(id){
 
     const mail=emails.find(x=>x.id===id);
 
     if(!mail)return;
+
 
     mail.unread=false;
 
@@ -1331,35 +1663,112 @@ function openMessage(id){
     document.getElementById("message").style.display="block";
 
 
+    /* ASUNTO */
+
     document.getElementById("messageTitle").textContent=
         mail.subject;
+
+
+    /* REMITENTE */
 
     document.getElementById("messageSender").textContent=
         mail.sender;
 
 
-    if(mail.folder==="sent"){
+    /* DIRECCIÓN */
 
-        document.getElementById("messageAddress").textContent=
-            "De: " + mail.address + "  •  Para: " + mail.to;
+    document.getElementById("messageAddress").textContent=
+        mail.address;
+
+
+    /* DESTINATARIO */
+
+    if(mail.to){
+
+        document.getElementById("messageTo").textContent=
+            "Para: " + mail.to;
 
     }else{
 
-        document.getElementById("messageAddress").textContent=
-            "Para: usuario";
+        document.getElementById("messageTo").textContent=
+            "";
 
     }
 
 
-    document.getElementById("messageBody").textContent=
-        mail.body;
+    /* FECHA */
+
+    document.getElementById("messageDate").textContent=
+        mail.fullDate || mail.date;
+
+
+    /* AVATAR */
+
+    if(mail.sender==="Yo"){
+
+        document.getElementById("messageAvatar").textContent="EM";
+
+    }else{
+
+        document.getElementById("messageAvatar").textContent=
+            mail.sender.substring(0,2).toUpperCase();
+
+    }
+
+
+    /* CUERPO */
+
+    const bodyElement=
+        document.getElementById("messageBody");
+
+
+    /*
+       Se convierte únicamente el enlace de Canva
+       en un enlace visual.
+    */
+
+    let bodyHTML=
+        escapeHTML(mail.body);
+
+
+    bodyHTML=bodyHTML.replace(
+        /https:\/\/canva\.link\/7xrzj49wlcy09z0/g,
+        '<a href="https://canva.link/7xrzj49wlcy09z0" target="_blank">https://canva.link/7xrzj49wlcy09z0</a>'
+    );
+
+
+    bodyElement.innerHTML=bodyHTML;
+
+
+    /* ADJUNTOS */
+
+    document.getElementById("attachments").style.display="none";
+
+
+    render();
 
 }
 
 
-/* =========================
+/* =====================================================
+   ESCAPAR HTML
+===================================================== */
+
+function escapeHTML(text){
+
+    return text
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
    CERRAR MENSAJE
-========================= */
+===================================================== */
 
 function closeMessage(){
 
@@ -1372,9 +1781,9 @@ function closeMessage(){
 }
 
 
-/* =========================
+/* =====================================================
    ESTRELLA
-========================= */
+===================================================== */
 
 function toggleStar(event,id){
 
@@ -1391,9 +1800,9 @@ function toggleStar(event,id){
 }
 
 
-/* =========================
+/* =====================================================
    BUSCAR
-========================= */
+===================================================== */
 
 function searchEmails(){
 
@@ -1402,15 +1811,16 @@ function searchEmails(){
 }
 
 
-/* =========================
+/* =====================================================
    MENÚ
-========================= */
+===================================================== */
 
 function openMenu(){
 
     document.getElementById("sideMenu").style.display="block";
 
 }
+
 
 function closeMenu(){
 
@@ -1419,9 +1829,9 @@ function closeMenu(){
 }
 
 
-/* =========================
+/* =====================================================
    CARPETAS
-========================= */
+===================================================== */
 
 function showFolder(folder){
 
@@ -1456,9 +1866,9 @@ function showFolder(folder){
 }
 
 
-/* =========================
+/* =====================================================
    REDACTAR
-========================= */
+===================================================== */
 
 function openCompose(){
 
@@ -1480,9 +1890,9 @@ function closeCompose(){
 }
 
 
-/* =========================
+/* =====================================================
    ENVIAR
-========================= */
+===================================================== */
 
 function sendEmail(){
 
@@ -1517,6 +1927,8 @@ function sendEmail(){
 
         date:"Ahora",
 
+        fullDate:"Ahora",
+
         address:"emiliano.ch.mino@gmail.com",
 
         to:to,
@@ -1540,6 +1952,28 @@ function sendEmail(){
     closeCompose();
 
     alert("Mensaje guardado en Enviados.");
+
+}
+
+
+/* =====================================================
+   RESPONDER
+===================================================== */
+
+function replyMessage(){
+
+    const title=
+        document.getElementById("messageTitle").textContent;
+
+    document.getElementById("compose").style.display="block";
+
+    document.getElementById("subject").value=
+        "Re: " + title;
+
+    document.getElementById("to").value=
+        "gbeltran@ups.edu.ec";
+
+    document.getElementById("body").value="";
 
 }
 
